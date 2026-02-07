@@ -3,13 +3,23 @@ public class pelanggan {
     private String password ;
 
     public pelanggan (String nama, String password){
-        
+        this.nama = nama;
+        this.password = password;
     }
 
-    public static void main(String[] args) {
-        System.out.println("Hello World");
-        System.out.println("NaKI Forever");
-        System.out.println("ini branch zaki");
-        System.out.println("ini tanggal 6 februari 2026");
+    public void setNamaPelanggan(String nama){
+        this.nama = nama;
+    }
+
+    public void setPasswordPelanggan(String password){
+        this.password = password;
+    }
+
+    public String getNamaPelanggan(){
+        return this.nama;
+    }
+
+    public String setPasswordPelanggan(){
+        return this.password;
     }
 }
