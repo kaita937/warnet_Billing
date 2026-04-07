@@ -1,5 +1,6 @@
-package com.DeaJayaNet.model;
-import com.DeaJayaNet.dao.penggunaDao;
+package com.DeaJayaNet.model.pengguna;
+
+import com.DeaJayaNet.dao.pengguna.penggunaDao;
 
 public abstract class pengguna{
 

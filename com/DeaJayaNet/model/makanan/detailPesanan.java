@@ -1,14 +1,14 @@
-package com.DeaJayaNet.model;
+package com.DeaJayaNet.model.makanan;
 
-public class detailMakanan {
+public class detailPesanan {
     menuMakanan menu_makanan;
     int jumlah;
     int subtotal;
 
-    public detailMakanan() {
+    public detailPesanan() {
     }
 
-    public detailMakanan(menuMakanan menu_makanan, int jumlah) {
+    public detailPesanan(menuMakanan menu_makanan, int jumlah) {
         this.menu_makanan = menu_makanan;
         this.jumlah = jumlah;
         this.subtotal = menu_makanan.getHarga() * jumlah;

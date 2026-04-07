@@ -1,9 +1,11 @@
-package com.DeaJayaNet.dao;
+package com.DeaJayaNet.dao.pengguna;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import com.DeaJayaNet.dao.DatabaseConnection;
 
 public class penggunaDao {
 
