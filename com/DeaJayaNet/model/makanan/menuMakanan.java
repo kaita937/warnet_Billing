@@ -1,27 +1,24 @@
-package com.DeaJayaNet.model;
+package com.DeaJayaNet.model.makanan;
 
 public class menuMakanan {
-    int id;
+    
     String nama_menu;
     int harga;
 
+    //konstruktor
     public menuMakanan() {
     }
 
-    public menuMakanan(int id, String nama_menu, int harga) {
-        this.id = id;
+    public menuMakanan(String nama_menu) {
+        this.nama_menu = nama_menu;
+    }
+
+    public menuMakanan(String nama_menu, int harga) {
         this.nama_menu = nama_menu;
         this.harga = harga;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    //getter & setter
     public String getNama_menu() {
         return nama_menu;
     }

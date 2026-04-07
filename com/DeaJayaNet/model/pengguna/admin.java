@@ -1,31 +1,31 @@
-package com.DeaJayaNet.model;
+package com.DeaJayaNet.model.pengguna;
 
-public class vip extends pengguna {
+public class admin extends pengguna{
 
-    String role = "VIP";
+    String role = "Admin";
 
     // konstruktor
-    public vip () {
+    public admin () {
         super();
-        this.role = "VIP";
+        this.role = "Admin";
         pdao.createPengguna(super.getNama(), super.getUsername(), super.getPassword(), super.getEmail(), super.getNoTelp(), this.role);
     }
 
-    public vip(String nama, String username, String password) {
+    public admin(String nama, String username, String password) {
         super(nama, username, password);
-        this.role = "VIP";
+        this.role = "Admin";
         pdao.createPengguna(super.getNama(), super.getUsername(), super.getPassword(), super.getEmail(), super.getNoTelp(), this.role);
     }
 
-    public vip(String nama, String username, String password, String email) {
+    public admin(String nama, String username, String password, String email) {
         super(nama, username, password, email);
-        this.role = "VIP";
+        this.role = "Admin";
         pdao.createPengguna(super.getNama(), super.getUsername(), super.getPassword(), super.getEmail(), super.getNoTelp(), this.role);
     }
 
-    public vip(String nama, String username, String password, String email, String noTelp) {
+    public admin(String nama, String username, String password, String email, String noTelp) {
         super(nama, username, password, email, noTelp);
-        this.role = "VIP";
+        this.role = "Admin";
         pdao.createPengguna(super.getNama(), super.getUsername(), super.getPassword(), super.getEmail(), super.getNoTelp(), this.role);
     }
 
@@ -64,5 +64,5 @@ public class vip extends pengguna {
         this.role = getRole();
         pdao.updatePengguna(super.getNama(), super.getUsername(), super.getPassword(), super.getEmail(), super.getNoTelp(), this.role);
     }
-
+    
 }

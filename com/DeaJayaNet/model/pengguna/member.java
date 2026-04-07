@@ -1,4 +1,4 @@
-package com.DeaJayaNet.model;
+package com.DeaJayaNet.model.pengguna;
 
 public class member extends pengguna {
 
