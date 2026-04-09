@@ -6,7 +6,7 @@ public abstract class pc {
 
     private String nomor_pc;
     private boolean status = false; //false = terkunci, true = terbuka
-    private String tipe_pc;
+    protected String tipe_pc;
 
     pcDao pcDao = new pcDao();
     
