@@ -1,95 +1,77 @@
 package com.DeaJayaNet.model.billing;
 
-import java.time.LocalDateTime;
-
-import com.DeaJayaNet.model.pc.pc;
-import com.DeaJayaNet.model.pengguna.pengguna;
-
 public class billingSession {
 
-    pc pc;
-    pengguna pengguna;
-    LocalDateTime waktu_mulai;
-    LocalDateTime waktu_selesai;
-    int durasi; // menit
-    String status;
+    private int id;
+    private int userId;
+    private int pcId;
 
-    // konstruktor
-    public billingSession() {
-    }
+    private long startTime;
+    private long endTime; // 0 = NULL (untuk MEMBER saat ACTIVE)
 
-    public billingSession(pc pc) {
-        this.pc = pc;
-    }
+    private String status;       // ACTIVE / FINISHED
+    private String sessionType;  // MEMBER / NON_MEMBER
 
-    public billingSession(pc pc, pengguna pengguna) {
-        this.pc = pc;
-        this.pengguna = pengguna;
-    }
+    // 🔹 CONSTANT biar gak typo di seluruh project
+    public static final String STATUS_ACTIVE = "ACTIVE";
+    public static final String STATUS_FINISHED = "FINISHED";
 
-    public billingSession(pc pc, pengguna pengguna, LocalDateTime waktu_mulai, LocalDateTime waktu_selesai) {
-        this.pc = pc;
-        this.pengguna = pengguna;
-        this.waktu_mulai = waktu_mulai;
-        this.waktu_selesai = waktu_selesai  ;
-    }
+    public static final String TYPE_MEMBER = "MEMBER";
+    public static final String TYPE_NON_MEMBER = "NON_MEMBER";
 
-    public billingSession(pc pc, pengguna pengguna, LocalDateTime waktu_mulai, LocalDateTime waktu_selesai, int durasi) {
-        this.pc = pc;
-        this.pengguna = pengguna;
-        this.waktu_mulai = waktu_mulai;
-        this.waktu_selesai = waktu_selesai  ;
-        this.durasi = durasi;
-    }
+    // 🔹 Constructor kosong (WAJIB untuk DAO mapping)
+    public billingSession() {}
 
-    public billingSession(pc pc, pengguna pengguna, LocalDateTime waktu_mulai, LocalDateTime waktu_selesai, int durasi, String status) {
-        this.pc = pc;
-        this.pengguna = pengguna;
-        this.waktu_mulai = waktu_mulai;
-        this.waktu_selesai = waktu_selesai  ;
-        this.durasi = durasi;
+    // 🔹 Constructor praktis
+    public billingSession(int userId, int pcId, long startTime, long endTime, String status, String sessionType) {
+        this.userId = userId;
+        this.pcId = pcId;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.status = status;
+        this.sessionType = sessionType;
     }
 
-    //getter & setter
-    public pc getPc() {
-        return pc;
+    // 🔹 Getter & Setter
+
+    public int getId() {
+        return id;
     }
 
-    public void setPc(pc pc) {
-        this.pc = pc;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public pengguna getPengguna() {
-        return pengguna;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setPengguna(pengguna pengguna) {
-        this.pengguna = pengguna;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public LocalDateTime getWaktuMulai() {
-        return waktu_mulai;
+    public int getPcId() {
+        return pcId;
     }
 
-    public void setWaktuMulai(LocalDateTime waktu_mulai) {
-        this.waktu_mulai = waktu_mulai;
+    public void setPcId(int pcId) {
+        this.pcId = pcId;
     }
 
-    public LocalDateTime getWaktuSelesai() {
-        return waktu_selesai;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public void setWaktuSelesai(LocalDateTime waktu_selesai) {
-        this.waktu_selesai = waktu_selesai;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
-    public int getDurasi() {
-        return durasi;
+    public long getEndTime() {
+        return endTime;
     }
 
-    public void setDurasi(int durasi) {
-        this.durasi = durasi;
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 
     public String getStatus() {
@@ -100,27 +82,23 @@ public class billingSession {
         this.status = status;
     }
 
-    // //service
-    // void displayInfo() {
-    //     System.out.println("PC: " + pc.getNomor_pc());
-    //     System.out.println("Pengguna: " + pengguna.getUsername());
-    //     System.out.println("Waktu Mulai: " + waktu_mulai);
-    //     System.out.println("Waktu Selesai: " + waktu_selesai);
-    //     System.out.println("Durasi: " + durasi + " menit");
-    //     System.out.println("Status: " + status);
-    // }
+    public String getSessionType() {
+        return sessionType;
+    }
 
-    // // logika durasi berkurang
-    // void mulaiSession() {
-    //     this.waktu_mulai = LocalDateTime.now();
-    //     this.status = "aktif";
-    //     System.out.println("Session dimulai ");
-    // }
+    public void setSessionType(String sessionType) {
+        this.sessionType = sessionType;
+    }
 
-    // void selesaiSession() {
-    //     this.waktu_selesai = LocalDateTime.now();
-    //     this.status = "nonaktif";
-    //     System.out.println("Session selesai ");
-    // }
+    public boolean isActive() {
+        return STATUS_ACTIVE.equals(this.status);
+    }
 
+    public boolean isMember() {
+        return TYPE_MEMBER.equals(this.sessionType);
+    }
+
+    public boolean isNonMember() {
+        return TYPE_NON_MEMBER.equals(this.sessionType);
+    }
 }

@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseConnection {
-    
-    private static final String URL = "jdbc:sqlite:users.db"; 
-    private static Connection instance = null; 
+
+    private static final String URL = "jdbc:sqlite:users.db";
+    private static Connection instance = null;
 
     public DatabaseConnection() {
     }
@@ -34,36 +34,38 @@ public class DatabaseConnection {
     public static void createNewTable() {
 
         //pengguna
-        String sqlPengguna = "CREATE TABLE IF NOT EXISTS pengguna (\n"
-                + " id integer PRIMARY KEY,\n"
-                + " nama text,\n"
-                + " username text NOT NULL,\n"
-                + " password text NOT NULL,\n"
-                + " email text,\n"
-                + " noTelp text,\n"
-                + " role text\n"
-                + ");";
+        String sqlPengguna = "CREATE TABLE IF NOT EXISTS pengguna (" +
+                             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                             "nama TEXT NOT NULL, " +
+                             "username TEXT NOT NULL UNIQUE, " +
+                             "password TEXT NOT NULL, " +
+                             "email TEXT NOT NULL UNIQUE, " +
+                             "noTelp TEXT, " +
+                             "role TEXT NOT NULL CHECK(role IN ('ADMIN', 'MEMBER')), " +
+                             "remaining_time INTEGER DEFAULT 0 " +
+                             ");";
+                
 
         //pc
-        String sqlPc = "CREATE TABLE IF NOT EXISTS pc ("
-                     + "id_pc INTEGER PRIMARY KEY, "
-                     + "nomor_pc TEXT, "
-                     + "tipe_pc TEXT, "
-                     + "status boolean"
-                     + ");";
+        String sqlPc = "CREATE TABLE IF NOT EXISTS pc (" +
+                       "id_pc INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                       "nomor_pc TEXT NOT NULL UNIQUE, " +
+                       "tipe_pc TEXT NOT NULL CHECK(tipe_pc IN ('REGULER', 'VIP')), " +
+                       "status TEXT NOT NULL CHECK(status IN ('IDLE', 'IN_USE', 'OFFLINE', 'RUSAK')) " +
+                       ");";
 
         //billing
-        String sqlBillingSession = "CREATE TABLE IF NOT EXISTS billing_session ("
-                + "id INTEGER PRIMARY KEY, "
-                + "id_pc INTEGER, "
-                + "username TEXT, "
-                + "waktu_mulai TEXT, "
-                + "waktu_selesai TEXT, "
-                + "durasi INTEGER, "
-                + "status TEXT, "
-                + "FOREIGN KEY (id_pc) REFERENCES pc(id_pc), "
-                + "FOREIGN KEY (username) REFERENCES pengguna(username)"
-                + ");";
+        String sqlBillingSession = "CREATE TABLE IF NOT EXISTS billing_session (" +
+                                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                                    "user_id INTEGER," +
+                                    "pc_id INTEGER NOT NULL," +
+                                    "start_time INTEGER NOT NULL," +
+                                    "end_time INTEGER," +
+                                    "status TEXT NOT NULL CHECK(status IN ('ACTIVE', 'FINISHED'))," +
+                                    "session_type TEXT NOT NULL CHECK(session_type IN ('MEMBER', 'NON_MEMBER'))," +
+                                    "FOREIGN KEY (user_id) REFERENCES pengguna(id)," +
+                                    "FOREIGN KEY (pc_id) REFERENCES pc(id_pc)" +
+                                    ");";
 
         String sqlPaketBilling = "";
 
