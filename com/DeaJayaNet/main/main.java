@@ -9,6 +9,8 @@ import com.DeaJayaNet.model.makanan.menuMakanan;
 import com.DeaJayaNet.model.pengguna.admin;
 import com.DeaJayaNet.model.pengguna.member;
 import com.DeaJayaNet.model.pengguna.vip;
+import com.DeaJayaNet.model.transaksi.paymentlog;
+import com.DeaJayaNet.model.transaksi.transaksi;
 
 public class main {
     public static void main(String[] args) {
@@ -34,7 +36,7 @@ public class main {
         // pdao.readPengguna(a1.getUsername());
         // pdao.readPengguna(v1.getUsername());
         // pdao.readPengguna(m1.getUsername());
-        // // Delete
+        // // // Delete
         // pdao.deletePengguna(a1.getUsername());
         // pdao.deletePengguna(v1.getUsername());
         // pdao.deletePengguna(m1.getUsername());
@@ -63,5 +65,7 @@ public class main {
         // pcDao.deletePc(pcv1.getNomor_pc());
         // pcDao.deletePc(pcr2.getNomor_pc());
 
+        //-----tes CRUD paymentlog-----
+        
     }
 }
