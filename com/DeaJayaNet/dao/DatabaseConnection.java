@@ -78,9 +78,24 @@ public class DatabaseConnection {
         String sqlPaymentlog = "";
 
         //pesanan makanan
-        String sqlPesanan = "";
+        String sqlPesanan = "CREATE TABLE IF NOT EXISTS pesanan ("
+                     + "id INTEGER PRIMARY KEY, "
+                     + "username TEXT, "
+                     + "id_pc INTEGER, "
+                     + "waktu_pesan TEXT, "
+                     + "status TEXT, "
+                     + "FOREIGN KEY (username) REFERENCES pengguna(username), "
+                     + "FOREIGN KEY (id_pc) REFERENCES pc(id_pc)"
+                     + ");";
 
-        String sqlDetailPesanan = "";
+        String sqlDetailPesanan = "CREATE TABLE IF NOT EXISTS detail_pesanan ("
+                     + "id INTEGER PRIMARY KEY, "
+                     + "id_pesanan INTEGER, "
+                     + "id_menu INTEGER, "
+                     + "jumlah INTEGER, "
+                     + "FOREIGN KEY (id_pesanan) REFERENCES pesanan(id), "
+                     + "FOREIGN KEY (id_menu) REFERENCES menu_makanan(id)"
+                     + ");";
 
         String sqlMenuMakanan = "CREATE TABLE IF NOT EXISTS menu_makanan ("
                      + "id INTEGER PRIMARY KEY, "
@@ -106,8 +121,8 @@ public class DatabaseConnection {
             // stmt.execute(sqlPaymentlog);
 
             //pesanan makanan
-            // stmt.execute(sqlPesanan);
-            // stmt.execute(sqlDetailPesanan);
+            stmt.execute(sqlPesanan);
+            stmt.execute(sqlDetailPesanan);
             stmt.execute(sqlMenuMakanan);
 
             // System.out.println("Tabel 'pengguna' dan 'pc' berhasil dibuat atau sudah ada.");
