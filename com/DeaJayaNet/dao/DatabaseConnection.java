@@ -67,7 +67,13 @@ public class DatabaseConnection {
                                     "FOREIGN KEY (pc_id) REFERENCES pc(id_pc)" +
                                     ");";
 
-        String sqlPaketBilling = "";
+        String sqlPaketBilling = "CREATE TABLE IF NOT EXISTS paket_billing ("
+            + "id INTEGER PRIMARY KEY, "
+            + "nama_paket TEXT, "
+            + "durasi_menit INTEGER, "
+            + "harga INTEGER"
+            + ");";
+
 
         //transaksi
         String sqlTransaksi = "CREATE TABLE IF NOT EXISTS transaksi ("
