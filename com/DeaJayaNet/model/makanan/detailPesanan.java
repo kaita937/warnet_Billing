@@ -1,9 +1,9 @@
 package com.DeaJayaNet.model.makanan;
 
 public class detailPesanan {
-    menuMakanan menu_makanan;
-    int jumlah;
-    int subtotal;
+    private menuMakanan menu_makanan;
+    private int jumlah;
+    private int subtotal;
 
     public detailPesanan() {
     }

@@ -2,8 +2,8 @@ package com.DeaJayaNet.model.makanan;
 
 public class menuMakanan {
     
-    String nama_menu;
-    int harga;
+    private String nama_menu;
+    private int harga;
 
     //konstruktor
     public menuMakanan() {
