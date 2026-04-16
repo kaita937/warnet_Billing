@@ -50,6 +50,41 @@ public class detailPesananDao {
     }
 
     //update 
-    
+    public void UpdateDetailPesanan(int id_detail_pesanan, int id_menu_makanan, int jumlah) {
+        DatabaseConnection.createNewTable();
+        String sql = "UPDATE detail_pesanan SET id_menu_makanan = ?, jumlah = ? WHERE id_detail_pesanan = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()){
+            PreparedStatement psmt = conn.prepareStatement(sql);
+
+            psmt.setInt(1, id_menu_makanan);
+            psmt.setInt(2, jumlah);
+            psmt.setInt(3, id_detail_pesanan);
+            psmt.executeUpdate();
+
+            System.out.println("Detail pesanan berhasil diperbarui.");
+            System.out.println();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+    }
     //delete
+    public void deleteDetailPesanan(int id_detail_pesanan) {
+        DatabaseConnection.createNewTable();
+        String sql = "DELETE FROM detail_pesanan WHERE id_detail_pesanan = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection()){
+            PreparedStatement psmt = conn.prepareStatement(sql);
+
+            psmt.setInt(1, id_detail_pesanan);
+            psmt.executeUpdate();
+
+            System.out.println("Detail pesanan dengan ID " + id_detail_pesanan + " berhasil dihapus.");
+            System.out.println();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+    }
 }
