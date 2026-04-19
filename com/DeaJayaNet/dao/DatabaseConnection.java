@@ -6,139 +6,122 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseConnection {
-
-    private static final String URL = "jdbc:sqlite:users.db";
+    private static final String URL = "jdbc:sqlite:warnet.db"; 
     private static Connection instance = null;
 
     public DatabaseConnection() {
     }
 
     public static Connection getConnection() {
-
         try {
             if (instance == null || instance.isClosed()) {
                 instance = DriverManager.getConnection(URL);
-                // System.out.println("Koneksi ke database berhasil.");
-                // System.out.println();
             }
         } catch (SQLException e) {
-            // TODO: handle exception
-            System.out.println(e.getMessage());
-            System.out.println();
+            System.out.println("Koneksi gagal: " + e.getMessage() + "\n");
         }
-
         return instance;
-
     }
 
+    // Method ini cukup dipanggil SEKALI di Main class lu pas aplikasi pertama kali jalan
     public static void createNewTable() {
-
-        //pengguna
-        String sqlPengguna = "CREATE TABLE IF NOT EXISTS pengguna (" +
-                             "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                             "nama TEXT NOT NULL, " +
-                             "username TEXT NOT NULL UNIQUE, " +
-                             "password TEXT NOT NULL, " +
-                             "email TEXT NOT NULL UNIQUE, " +
-                             "noTelp TEXT, " +
-                             "role TEXT NOT NULL CHECK(role IN ('ADMIN', 'MEMBER')), " +
-                             "remaining_time INTEGER DEFAULT 0 " +
-                             ");";
+        // 1. Table Users
+        String sqlUsers = "CREATE TABLE IF NOT EXISTS users (" +
+                          "user_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                          "name TEXT NOT NULL, " +
+                          "username TEXT NOT NULL UNIQUE, " +
+                          "password TEXT NOT NULL, " +
+                          "email TEXT NOT NULL UNIQUE, " +
+                          "phone_number TEXT, " +
+                          "role TEXT NOT NULL CHECK(role IN ('Admin', 'Member', 'VIP')), " +
+                          "remaining_time INTEGER DEFAULT 0 " +
+                          ");";
                 
+        // 2. Table Computers
+        String sqlComputers = "CREATE TABLE IF NOT EXISTS computers (" +
+                              "computer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                              "computer_number TEXT NOT NULL UNIQUE, " +
+                              "computer_type TEXT NOT NULL CHECK(computer_type IN ('Regular', 'VIP')), " +
+                              "is_unlocked BOOLEAN NOT NULL DEFAULT 0 " + 
+                              ");";
 
-        //pc
-        String sqlPc = "CREATE TABLE IF NOT EXISTS pc (" +
-                       "id_pc INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                       "nomor_pc TEXT NOT NULL UNIQUE, " +
-                       "tipe_pc TEXT NOT NULL CHECK(tipe_pc IN ('REGULER', 'VIP')), " +
-                       "status TEXT NOT NULL CHECK(status IN ('IDLE', 'IN_USE', 'OFFLINE', 'RUSAK')) " +
-                       ");";
-
-        //billing
-        String sqlBillingSession = "CREATE TABLE IF NOT EXISTS billing_session (" +
-                                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                                    "user_id INTEGER," +
-                                    "pc_id INTEGER NOT NULL," +
-                                    "start_time INTEGER NOT NULL," +
-                                    "end_time INTEGER," +
-                                    "status TEXT NOT NULL CHECK(status IN ('ACTIVE', 'FINISHED'))," +
-                                    "session_type TEXT NOT NULL CHECK(session_type IN ('MEMBER', 'NON_MEMBER'))," +
-                                    "FOREIGN KEY (user_id) REFERENCES pengguna(id)," +
-                                    "FOREIGN KEY (pc_id) REFERENCES pc(id_pc)" +
+        // 3. Table Billing Sessions
+        String sqlBillingSessions = "CREATE TABLE IF NOT EXISTS billing_sessions (" +
+                                    "session_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                    "user_id INTEGER, " +
+                                    "computer_id INTEGER NOT NULL, " +
+                                    "start_time TEXT NOT NULL, " +
+                                    "end_time TEXT, " +
+                                    "status TEXT NOT NULL CHECK(status IN ('ACTIVE', 'FINISHED')), " +
+                                    "session_type TEXT NOT NULL CHECK(session_type IN ('MEMBER', 'GUEST')), " +
+                                    "FOREIGN KEY (user_id) REFERENCES users(user_id), " +
+                                    "FOREIGN KEY (computer_id) REFERENCES computers(computer_id)" +
                                     ");";
 
-        String sqlPaketBilling = "CREATE TABLE IF NOT EXISTS paket_billing ("
-            + "id INTEGER PRIMARY KEY, "
-            + "nama_paket TEXT, "
-            + "durasi_menit INTEGER, "
-            + "harga INTEGER"
-            + ");";
+        // 4. Table Billing Packages
+        String sqlBillingPackages = "CREATE TABLE IF NOT EXISTS billing_packages (" +
+                                    "package_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                    "package_name TEXT, " +
+                                    "duration_minutes INTEGER, " +
+                                    "price INTEGER" +
+                                    ");";
 
+        // 5. Table Transactions
+        String sqlTransactions = "CREATE TABLE IF NOT EXISTS transactions (" +
+                                 "transaction_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                 "payment_method TEXT, " +
+                                 "amount_paid INTEGER, " +
+                                 "status TEXT" +
+                                 ");";
 
-        //transaksi
-        String sqlTransaksi = "CREATE TABLE IF NOT EXISTS transaksi ("
-                     + "id INTEGER PRIMARY KEY, "
-                     + "metode_pembayaran TEXT, "
-                     + "jumlah_bayar INTEGER, "
-                     + "status TEXT"
-                     + ");";
+        // 6. Table Food Menus
+        String sqlFoodMenus = "CREATE TABLE IF NOT EXISTS food_menus (" +
+                              "food_menu_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                              "name TEXT, " +
+                              "price INTEGER" +
+                              ");";
 
-        String sqlPaymentlog = "";
+        // 7. Table Orders (Disinkronkan dengan OrderDao)
+        String sqlOrders = "CREATE TABLE IF NOT EXISTS orders (" +
+                           "order_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                           "user_id INTEGER, " +
+                           "computer_id INTEGER, " +
+                           "total_price INTEGER, " +
+                           "payment_method TEXT, " +
+                           "status TEXT, " +
+                           "order_time TEXT, " +
+                           "FOREIGN KEY (user_id) REFERENCES users(user_id), " +
+                           "FOREIGN KEY (computer_id) REFERENCES computers(computer_id)" +
+                           ");";
 
-        //pesanan makanan
-        String sqlPesanan = "CREATE TABLE IF NOT EXISTS pesanan ("
-                     + "id INTEGER PRIMARY KEY, "
-                     + "username TEXT, "
-                     + "id_pc INTEGER, "
-                     + "waktu_pesan TEXT, "
-                     + "status TEXT, "
-                     + "FOREIGN KEY (username) REFERENCES pengguna(username), "
-                     + "FOREIGN KEY (id_pc) REFERENCES pc(id_pc)"
-                     + ");";
+        // 8. Table Order Details
+        String sqlOrderDetails = "CREATE TABLE IF NOT EXISTS order_details (" +
+                                 "order_detail_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                 "order_id INTEGER, " +
+                                 "food_menu_id INTEGER, " +
+                                 "quantity INTEGER, " +
+                                 "FOREIGN KEY (order_id) REFERENCES orders(order_id), " +
+                                 "FOREIGN KEY (food_menu_id) REFERENCES food_menus(food_menu_id)" +
+                                 ");";
 
-        String sqlDetailPesanan = "CREATE TABLE IF NOT EXISTS detail_pesanan ("
-                     + "id INTEGER PRIMARY KEY, "
-                     + "id_pesanan INTEGER, "
-                     + "id_menu INTEGER, "
-                     + "jumlah INTEGER, "
-                     + "FOREIGN KEY (id_pesanan) REFERENCES pesanan(id), "
-                     + "FOREIGN KEY (id_menu) REFERENCES menu_makanan(id)"
-                     + ");";
-
-        String sqlMenuMakanan = "CREATE TABLE IF NOT EXISTS menu_makanan ("
-                     + "id INTEGER PRIMARY KEY, "
-                     + "nama_menu TEXT, "
-                     + "harga INTEGER"
-                     + ");";
-
+        // Eksekusi semua query pembuatan tabel
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement()) {
             
-            //pengguna
-            stmt.execute(sqlPengguna);
+            stmt.execute(sqlUsers);
+            stmt.execute(sqlComputers);
+            stmt.execute(sqlBillingSessions);
+            stmt.execute(sqlBillingPackages); // Udah di-uncomment biar ke-create
+            stmt.execute(sqlTransactions);
+            stmt.execute(sqlFoodMenus);
+            stmt.execute(sqlOrders);
+            stmt.execute(sqlOrderDetails);
 
-            //pc
-            stmt.execute(sqlPc);
+            // Boleh di-uncomment kalau lu mau ada log sukses pas aplikasi jalan
+            // System.out.println("Semua tabel berhasil diverifikasi/dibuat.\n");
 
-            //billing
-            stmt.execute(sqlBillingSession);
-            // stmt.execute(sqlPaketBilling);
-
-            //transaksi
-            stmt.execute(sqlTransaksi);
-            // stmt.execute(sqlPaymentlog);
-
-            //pesanan makanan
-            stmt.execute(sqlPesanan);
-            stmt.execute(sqlDetailPesanan);
-            stmt.execute(sqlMenuMakanan);
-
-            // System.out.println("Tabel 'pengguna' dan 'pc' berhasil dibuat atau sudah ada.");
-            // System.out.println();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            System.out.println();
+            System.out.println("Gagal membuat tabel: " + e.getMessage() + "\n");
         }
     }
-
 }

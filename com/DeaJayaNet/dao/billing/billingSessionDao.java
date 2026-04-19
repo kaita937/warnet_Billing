@@ -1,16 +1,16 @@
 package com.DeaJayaNet.dao.billing;
 
 import com.DeaJayaNet.dao.DatabaseConnection;
-import com.DeaJayaNet.model.billing.billingSession;
+import com.DeaJayaNet.model.billing.BillingSession;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class billingSessionDao {
+public class BillingSessionDao {
 
     // 🔹 CREATE SESSION (return ID)
-    public int createSession(billingSession session) {
+    public int createSession(BillingSession session) {
         String sql = "INSERT INTO billing_session " +
                 "(user_id, pc_id, start_time, end_time, status, session_type) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
@@ -19,7 +19,7 @@ public class billingSessionDao {
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             pstmt.setInt(1, session.getUserId());
-            pstmt.setInt(2, session.getPcId());
+            pstmt.setInt(2, session.getComputerId());
             pstmt.setLong(3, session.getStartTime());
 
             // HANDLE NULL end_time (untuk MEMBER)
@@ -48,7 +48,7 @@ public class billingSessionDao {
     }
 
     // 🔹 FIND ACTIVE SESSION BY USER
-    public billingSession findActiveByUser(int userId) {
+    public BillingSession findActiveByUser(int userId) {
         String sql = "SELECT id, user_id, pc_id, start_time, end_time, status, session_type " +
                      "FROM billing_session WHERE user_id = ? AND status = 'ACTIVE'";
 
@@ -71,7 +71,7 @@ public class billingSessionDao {
     }
 
     // 🔹 FIND ACTIVE SESSION BY PC
-    public billingSession findActiveByPc(int pcId) {
+    public BillingSession findActiveByPc(int pcId) {
         String sql = "SELECT id, user_id, pc_id, start_time, end_time, status, session_type " +
                      "FROM billing_session WHERE pc_id = ? AND status = 'ACTIVE'";
 
@@ -130,8 +130,8 @@ public class billingSessionDao {
     }
 
     // 🔹 GET ALL ACTIVE SESSION (RECOVERY)
-    public List<billingSession> findAllActive() {
-        List<billingSession> list = new ArrayList<>();
+    public List<BillingSession> findAllActive() {
+        List<BillingSession> list = new ArrayList<>();
 
         String sql = "SELECT id, user_id, pc_id, start_time, end_time, status, session_type " +
                      "FROM billing_session WHERE status = 'ACTIVE'";
@@ -153,12 +153,12 @@ public class billingSessionDao {
     }
 
     // 🔧 MAPPING RESULTSET → OBJECT
-    private billingSession mapResultSetToSession(ResultSet rs) throws SQLException {
-        billingSession session = new billingSession();
+    private BillingSession mapResultSetToSession(ResultSet rs) throws SQLException {
+        BillingSession session = new BillingSession();
 
         session.setId(rs.getInt("id"));
         session.setUserId(rs.getInt("user_id"));
-        session.setPcId(rs.getInt("pc_id"));
+        session.setComputerId(rs.getInt("pc_id"));
         session.setStartTime(rs.getLong("start_time"));
 
         long endTime = rs.getLong("end_time");

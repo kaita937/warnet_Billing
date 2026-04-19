@@ -1,71 +1,82 @@
 package com.DeaJayaNet.main;
 
-import com.DeaJayaNet.dao.pc.pcDao;
-import com.DeaJayaNet.dao.pengguna.penggunaDao;
-import com.DeaJayaNet.model.pc.pc;
-import com.DeaJayaNet.model.pc.pcReguler;
-import com.DeaJayaNet.model.pc.pcVip;
-import com.DeaJayaNet.model.makanan.menuMakanan;
-import com.DeaJayaNet.model.pengguna.admin;
-import com.DeaJayaNet.model.pengguna.member;
-import com.DeaJayaNet.model.pengguna.vip;
-import com.DeaJayaNet.model.transaksi.paymentlog;
-import com.DeaJayaNet.model.transaksi.transaksi;
+// Import disesuaikan dengan struktur class Bahasa Inggris kita
+import com.DeaJayaNet.dao.DatabaseConnection;
+import com.DeaJayaNet.dao.computer.ComputerDao; 
+import com.DeaJayaNet.dao.user.UserDao;
+import com.DeaJayaNet.model.food.FoodMenu;
+import com.DeaJayaNet.model.computer.Computer;
+import com.DeaJayaNet.model.computer.RegularComputer;
+import com.DeaJayaNet.model.computer.VipComputer;
+// import com.DeaJayaNet.model.transaksi.PaymentLog; 
+// import com.DeaJayaNet.model.transaksi.Transaction; 
+import com.DeaJayaNet.model.user.Admin;
+import com.DeaJayaNet.model.user.Member;
+import com.DeaJayaNet.model.user.Vip;
 
-public class main {
+public class Main { 
     public static void main(String[] args) {
 
+        // PENTING: Eksekusi pembuatan tabel SATU KALI saja di awal program
+        DatabaseConnection.createNewTable();
+
         // note : 
-        // kalau mau akses database 'users.db' download dulu DB Browser(SQLite). 
-        // terus buka file users.db yang ada di folder project ini pakai DB Browser(SQLite).
+        // Kalau mau akses database 'warnet.db', download dulu DB Browser (SQLite). 
+        // Terus buka file warnet.db yang ada di folder project ini pakai DB Browser.
+        System.out.println("=== TES CRUD USER ===");
+        UserDao userDao = new UserDao();  
+        
+        Admin a1 = new Admin("Jull", "jull_admin", "qwerty");
+        Vip v1 = new Vip("Jamal", "jamal_vip", "qwerty");
+        Member m1 = new Member("Zaki", "zaki_member", "qwerty");
+        
+        // Read
+        userDao.readUser(a1.getUsername());
+        userDao.readUser(v1.getUsername());
+        userDao.readUser(m1.getUsername());
+        
+        // Update
+        a1.setEmail("jull@gmail.com");
+        v1.setEmail("jamal@gmail.com");
+        m1.setEmail("zaki@gmail.com");
+        userDao.readUser(a1.getUsername());
+        userDao.readUser(v1.getUsername());
+        userDao.readUser(m1.getUsername());
+        
+        // Delete
+        userDao.deleteUser(a1.getUsername());
+        userDao.deleteUser(v1.getUsername());
+        userDao.deleteUser(m1.getUsername());
 
-        // //-----tes CRUD pengguna-----
-        // penggunaDao pdao = new penggunaDao();  
-        // // // Create
-        // admin a1 = new admin(null, "jull", "qwerty");
-        // vip v1 = new vip(null,"jamal", "qwerty");
-        // member m1 = new member(null, "zaki", "qwerty");
-        // // // Read
-        // pdao.readPengguna(a1.getUsername());
-        // pdao.readPengguna(v1.getUsername());
-        // pdao.readPengguna(m1.getUsername());
-        // // Update
-        // a1.setEmail("jull@gmail.com");
-        // v1.setEmail("jamal@gmail.com");
-        // m1.setEmail("zaki@gmail.com");
-        // pdao.readPengguna(a1.getUsername());
-        // pdao.readPengguna(v1.getUsername());
-        // pdao.readPengguna(m1.getUsername());
-        // // // Delete
-        // pdao.deletePengguna(a1.getUsername());
-        // pdao.deletePengguna(v1.getUsername());
-        // pdao.deletePengguna(m1.getUsername());
-        // pdao.readPengguna(v1.getUsername());
-        // pdao.readPengguna(m1.getUsername());
 
-        // //-----tes CRUD pc-----
-        // pcDao pcDao = new pcDao();
-        // // Create
-        // pcReguler pcr1 = new pcReguler("PC-R001");
-        // pcVip pcv1 = new pcVip("PC-V001");
-        // pcReguler pcr2 = new pcReguler("PC-R002");
-        // // Read
-        // pcDao.readPc(pcr1.getNomor_pc());
-        // pcDao.readPc(pcv1.getNomor_pc());
-        // pcDao.readPc(pcr2.getNomor_pc());
-        // //Update
-        // pcDao.updatePc(pcr1.getNomor_pc(), true);
-        // pcDao.updatePc(pcv1.getNomor_pc(), true);
-        // pcDao.updatePc(pcr2.getNomor_pc(), true);
-        // pcDao.readPc(pcr1.getNomor_pc());
-        // pcDao.readPc(pcv1.getNomor_pc());
-        // pcDao.readPc(pcr2.getNomor_pc());
-        // // Delete
-        // pcDao.deletePc(pcr1.getNomor_pc());
-        // pcDao.deletePc(pcv1.getNomor_pc());
-        // pcDao.deletePc(pcr2.getNomor_pc());
+        System.out.println("=== TES CRUD COMPUTER ===");
+        ComputerDao computerDao = new ComputerDao();
+        
+        // Create
+        RegularComputer pcr1 = new RegularComputer("PC-R001");
+        VipComputer pcv1 = new VipComputer("PC-V001");
+        RegularComputer pcr2 = new RegularComputer("PC-R002");
+        
+        // Read
+        computerDao.readComputer(pcr1.getComputerNumber());
+        computerDao.readComputer(pcv1.getComputerNumber());
+        computerDao.readComputer(pcr2.getComputerNumber());
+        
+        // Update (Mengubah status isUnlocked jadi true)
+        computerDao.updateComputer(pcr1.getComputerNumber(), true);
+        computerDao.updateComputer(pcv1.getComputerNumber(), true);
+        computerDao.updateComputer(pcr2.getComputerNumber(), true);
+        
+        computerDao.readComputer(pcr1.getComputerNumber());
+        computerDao.readComputer(pcv1.getComputerNumber());
+        computerDao.readComputer(pcr2.getComputerNumber());
+        
+        // Delete
+        computerDao.deleteComputer(pcr1.getComputerNumber());
+        computerDao.deleteComputer(pcv1.getComputerNumber());
+        computerDao.deleteComputer(pcr2.getComputerNumber());
 
         //-----tes CRUD paymentlog-----
-        
+        System.out.println("=== TES CRUD SELESAI ===");
     }
 }
