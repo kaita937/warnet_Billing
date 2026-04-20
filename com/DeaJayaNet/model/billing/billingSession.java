@@ -1,10 +1,10 @@
 package com.DeaJayaNet.model.billing;
 
-public class billingSession {
+public class BillingSession {
 
     private int id;
     private int userId;
-    private int pcId;
+    private int computerId;
 
     private long startTime;
     private long endTime; // 0 = NULL (untuk MEMBER saat ACTIVE)
@@ -20,12 +20,12 @@ public class billingSession {
     public static final String TYPE_NON_MEMBER = "NON_MEMBER";
 
     // 🔹 Constructor kosong (WAJIB untuk DAO mapping)
-    public billingSession() {}
+    public BillingSession() {}
 
     // 🔹 Constructor praktis
-    public billingSession(int userId, int pcId, long startTime, long endTime, String status, String sessionType) {
+    public BillingSession(int userId, int computerId, long startTime, long endTime, String status, String sessionType) {
         this.userId = userId;
-        this.pcId = pcId;
+        this.computerId = computerId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
@@ -50,12 +50,12 @@ public class billingSession {
         this.userId = userId;
     }
 
-    public int getPcId() {
-        return pcId;
+    public int getComputerId() {
+        return computerId;
     }
 
-    public void setPcId(int pcId) {
-        this.pcId = pcId;
+    public void setComputerId(int computerId) {
+        this.computerId = computerId;
     }
 
     public long getStartTime() {
