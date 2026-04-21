@@ -2,45 +2,61 @@ package com.DeaJayaNet.model.transaction;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import com.DeaJayaNet.dao.transaction.PaymentLogDao;
 
 public class PaymentLog {
     private int transactionId;
-    private int totalAmount;
-    private Boolean isSuccessful;
+    private String PaymentLogName;
+    private Boolean isSuccessful = true;
     private String createdAt;
 
-    // Helper method buat DRY (Don't Repeat Yourself)
+    private PaymentLogDao paymentLogDao = new PaymentLogDao();
+
     private String generateCurrentTime() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    // --- Constructor Chaining ---
+    // --- Constructor
     public PaymentLog() {
         this.createdAt = generateCurrentTime();
-        this.isSuccessful = false;
+        paymentLogDao.createPaymentLog(this.transactionId, this.PaymentLogName, this.isSuccessful, this.createdAt);
     }
 
     public PaymentLog(int transactionId) {
-        this(); // Memanggil constructor kosong di atas buat set createdAt & isSuccessful
         this.transactionId = transactionId;
+        this.createdAt = generateCurrentTime();
+        paymentLogDao.createPaymentLog(this.transactionId, this.PaymentLogName, this.isSuccessful, this.createdAt);
     }
 
-    public PaymentLog(int transactionId, int totalAmount) {
-        this(transactionId); // Memanggil constructor di atasnya
-        this.totalAmount = totalAmount;
+    public PaymentLog(int transactionId, String PaymentLogName) {
+        this.transactionId = transactionId;
+        this.PaymentLogName = PaymentLogName;
+        this.createdAt = generateCurrentTime();
+        paymentLogDao.createPaymentLog(this.transactionId, this.PaymentLogName, this.isSuccessful, this.createdAt);
+    }
+
+    public PaymentLog(int transactionId, String PaymentLogName, Boolean isSuccessful) {
+        this.transactionId = transactionId;
+        this.PaymentLogName = PaymentLogName;
+        this.isSuccessful = isSuccessful;
+        this.createdAt = generateCurrentTime();
+        paymentLogDao.createPaymentLog(this.transactionId, this.PaymentLogName, this.isSuccessful, this.createdAt);
     }
 
     // --- Setter ---
     public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
+        paymentLogDao.updatePaymentLog(transactionId, PaymentLogName, isSuccessful);
     }
-
-    public void setTotalAmount(int totalAmount) {
-        this.totalAmount = totalAmount;
-    }  
 
     public void setSuccessful(Boolean isSuccessful) {
         this.isSuccessful = isSuccessful;
+        paymentLogDao.updatePaymentLog(transactionId, PaymentLogName, isSuccessful);
+    }
+
+    public void setPaymentLogName(String PaymentLogName) {
+        this.PaymentLogName = PaymentLogName;
+        paymentLogDao.updatePaymentLog(transactionId, PaymentLogName, isSuccessful);
     }
 
     // --- Getter ---
@@ -48,11 +64,10 @@ public class PaymentLog {
         return this.transactionId;
     }
 
-    public int getTotalAmount() {
-        return this.totalAmount;
+    public String getPaymentLogName() {
+        return this.PaymentLogName;
     }
 
-    // Untuk tipe Boolean, best practice penamaannya biasa tidak pakai 'get' jika sudah ada prefix 'is' atau sejenisnya
     public Boolean isSuccessful() {
         return this.isSuccessful;
     }

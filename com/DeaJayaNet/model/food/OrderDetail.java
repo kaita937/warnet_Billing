@@ -2,14 +2,14 @@ package com.DeaJayaNet.model.food;
 
 public class OrderDetail {
     
-    private FoodMenu foodMenu; 
+    private FoodMenus foodMenu; 
     private int quantity;       // Pengganti 'jumlah'
     private int subtotal;       // Tetap 'subtotal'
 
     public OrderDetail() {
     }
 
-    public OrderDetail(FoodMenu foodMenu, int quantity) {
+    public OrderDetail(FoodMenus foodMenu, int quantity) {
         this.foodMenu = foodMenu;
         this.quantity = quantity;
         // Asumsi method getHarga() di class FoodMenu udah lu ubah jadi getPrice()
@@ -17,11 +17,11 @@ public class OrderDetail {
     }
 
     // --- Getter & Setter ---
-    public FoodMenu getFoodMenu() {
+    public FoodMenus getFoodMenu() {
         return foodMenu;
     }
 
-    public void setFoodMenu(FoodMenu foodMenu) {
+    public void setFoodMenu(FoodMenus foodMenu) {
         this.foodMenu = foodMenu;
     }
 

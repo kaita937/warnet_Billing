@@ -8,6 +8,7 @@ import com.DeaJayaNet.dao.DatabaseConnection;
 import com.DeaJayaNet.model.food.Order; 
 
 public class OrderDao {
+    
     // Create
     public void createOrder() {
         DatabaseConnection.createNewTable();

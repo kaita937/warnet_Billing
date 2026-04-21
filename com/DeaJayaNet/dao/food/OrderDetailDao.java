@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderDetailDao {
+    
     // Create
     public void createOrderDetail(int orderId, int foodMenuId, int quantity) {
         // Ingat saran sebelumnya: idealnya createNewTable() ini dihapus kalau udah dipanggil di Main

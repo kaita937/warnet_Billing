@@ -5,25 +5,50 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import com.DeaJayaNet.dao.DatabaseConnection;
-import com.DeaJayaNet.model.food.FoodMenu; 
+import com.DeaJayaNet.model.food.FoodMenus; 
 
-public class FoodMenuDao {
+public class FoodMenusDao {
+
+    // Cek apakah menu sudah ada
+    public boolean checkFoodMenus(String menuName) {
+
+        String sql = "SELECT count(*) FROM food_menus WHERE name = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, menuName);
+            
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if(rs.next() && rs.getInt(1) > 0) {
+                    return true; // Menu sudah ada
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage() + "\n");
+        }
+
+        return false; // Menu belum ada
+    }
+
     // Create
-    public void createFoodMenu(FoodMenu menu) {
+    public void createFoodMenus(String name, int price, int stock) {
 
-        String sql = "INSERT INTO food_menus(name, price) VALUES(?,?)";
+        String sql = "INSERT INTO food_menus(name, price, stock) VALUES(?,?,?)";
 
-        if (checkMenu(menu.getName())) {
-            System.out.println("Gagal menambahkan menu makanan: Menu '" + menu.getName() + "' sudah ada.\n");
+        if (checkFoodMenus(name)) {
+            System.out.println("Gagal menambahkan menu makanan: Menu '" + name + "' sudah ada.\n");
         } else {
             try (Connection conn = DatabaseConnection.getConnection();
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 
-                pstmt.setString(1, menu.getName());
-                pstmt.setInt(2, menu.getPrice());
+                pstmt.setString(1, name);
+                pstmt.setInt(2, price);
+                pstmt.setInt(3, stock);
                 pstmt.executeUpdate();
 
-                System.out.println("Menu makanan '" + menu.getName() + "' berhasil ditambahkan ke database.\n");
+                System.out.println("Menu makanan '" + name + "' berhasil ditambahkan ke database.\n");
             } catch (SQLException e) {
                 System.out.println(e.getMessage() + "\n");
             }
@@ -42,8 +67,9 @@ public class FoodMenuDao {
             pstmt.setInt(1, id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    System.out.println("Menu makanan: " + rs.getString("name")
-                                     + " dengan harga " + rs.getInt("price") + "\n");
+                    System.out.println("Menu makanan: " + rs.getString("name") + "\n"
+                     + "Harga: " + rs.getInt("price") + "\n"
+                     + "Stok: " + rs.getInt("stock") + "\n");
                 } else {
                     System.out.println("Menu makanan tidak ditemukan.\n");
                 }
@@ -54,19 +80,20 @@ public class FoodMenuDao {
     }
 
     // Update
-    public void updateFoodMenu(FoodMenu menu) {
+    public void updateFoodMenu(String name, int price, int stock) {
 
-        int id = getFoodMenuId(menu.getName());
-        String sql = "UPDATE food_menus SET price = ? WHERE food_menu_id = ?";
+        int id = getFoodMenuId(name);
+        String sql = "UPDATE food_menus SET price = ?, stock = ? WHERE food_menu_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            pstmt.setInt(1, menu.getPrice());
-            pstmt.setInt(2, id);
+            pstmt.setInt(1, price);
+            pstmt.setInt(2, stock);
+            pstmt.setInt(3, id);
             pstmt.executeUpdate();
 
-            System.out.println("Menu makanan '" + menu.getName() + "' berhasil diperbarui.\n");
+            System.out.println("Menu makanan '" + name + "' berhasil diperbarui.\n");
         } catch (SQLException e) {
             System.out.println(e.getMessage() + "\n");
         }
@@ -108,23 +135,23 @@ public class FoodMenuDao {
         return -1; // Menu makanan tidak ditemukan
     }
 
-    // Cek apakah menu sudah ada
-    public boolean checkMenu(String name) {
-        String sql = "SELECT food_menu_id FROM food_menus WHERE name = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    // // Cek apakah menu sudah ada
+    // public boolean checkMenu(String name) {
+    //     String sql = "SELECT food_menu_id FROM food_menus WHERE name = ?";
+    //     try (Connection conn = DatabaseConnection.getConnection();
+    //          PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
-            pstmt.setString(1, name);
-            ResultSet rs = pstmt.executeQuery();
+    //         pstmt.setString(1, name);
+    //         ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                return true;
-            }
+    //         if (rs.next()) {
+    //             return true;
+    //         }
 
-        } catch (SQLException e) {
-            System.out.println(e.getMessage() + "\n");
-        }
-        return false;
-    }
+    //     } catch (SQLException e) {
+    //         System.out.println(e.getMessage() + "\n");
+    //     }
+    //     return false;
+    // }
 
 }
