@@ -1,15 +1,14 @@
 package com.DeaJayaNet.model.billing;
 
-public class BillingSession {
+public class ActiveSession {
 
-    private int id;
+    private int sessionId;
     private int userId;
     private int computerId;
 
-    private long startTime;
-    private long endTime; // 0 = NULL (untuk MEMBER saat ACTIVE)
+    private Long startTime;
+    private Long endTime; // 0 = NULL (untuk MEMBER saat ACTIVE)
 
-    private String status;       // ACTIVE / FINISHED
     private String sessionType;  // MEMBER / NON_MEMBER
 
     // 🔹 CONSTANT biar gak typo di seluruh project
@@ -20,26 +19,25 @@ public class BillingSession {
     public static final String TYPE_NON_MEMBER = "NON_MEMBER";
 
     // 🔹 Constructor kosong (WAJIB untuk DAO mapping)
-    public BillingSession() {}
+    public ActiveSession() {}
 
     // 🔹 Constructor praktis
-    public BillingSession(int userId, int computerId, long startTime, long endTime, String status, String sessionType) {
+    public ActiveSession(int userId, int computerId, long startTime, long endTime, String sessionType) {
         this.userId = userId;
         this.computerId = computerId;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.status = status;
         this.sessionType = sessionType;
     }
 
     // 🔹 Getter & Setter
 
-    public int getId() {
-        return id;
+    public int getSessionId() {
+        return sessionId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSessionId(int sessionId) {
+        this.sessionId = sessionId;
     }
 
     public int getUserId() {
@@ -74,24 +72,12 @@ public class BillingSession {
         this.endTime = endTime;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getSessionType() {
         return sessionType;
     }
 
     public void setSessionType(String sessionType) {
         this.sessionType = sessionType;
-    }
-
-    public boolean isActive() {
-        return STATUS_ACTIVE.equals(this.status);
     }
 
     public boolean isMember() {
