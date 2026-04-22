@@ -1,76 +1,56 @@
 package com.DeaJayaNet.model.food;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
-// Asumsi: Class ini nantinya akan lu refactor juga jadi bahasa Inggris
-import com.DeaJayaNet.model.computer.*;     // Sebelumnya: pc
-import com.DeaJayaNet.model.user.*;   // Sebelumnya: pengguna
-
-// Class diubah ke PascalCase
 public class Order {
     
-    private User user;                       // Pengganti 'pengguna'
-    private Computer computer;               // Pengganti 'pc'
-    private List<OrderDetail> orderDetails;  // Pengganti 'detail_pesanan'
-    private int totalPrice;                  // Pengganti 'total_harga'
-    private String paymentMethod;            // Pengganti 'metode_pembayaran'
-    private String status;                   // Tetap 'status'
-    private LocalDateTime orderTime;         // Pengganti 'waktu_pemesanan'
-
-    public Order() {
+    private int userId;                      
+    private int computerId;              
+    private String status;                   
+    private String created_at;
+    
+    private String generateCurrentTime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public Order(User user, Computer computer, List<OrderDetail> orderDetails, String paymentMethod, String status, LocalDateTime orderTime) {
-        this.user = user;
-        this.computer = computer;
-        this.orderDetails = orderDetails;
-        this.totalPrice = calculateTotalPrice(); // Memanggil method yang udah di-rename
-        this.paymentMethod = paymentMethod;
+    public Order() {
+        this.created_at = generateCurrentTime();
+    }
+
+    public Order(int userId) {
+        this.userId = userId;
+        this.created_at = generateCurrentTime();
+    }
+
+    public Order(int userId, int computerId) {
+        this.userId = userId;
+        this.computerId = computerId;
+        this.created_at = generateCurrentTime();
+    }
+
+    public Order(int userId, int computerId, String status) {
+        this.userId = userId;
+        this.computerId = computerId;
         this.status = status;
-        this.orderTime = orderTime;
+        this.created_at = generateCurrentTime();
     }
 
     // --- Getter & Setter ---
-
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public Computer getComputer() {
-        return computer;
+    public int getComputerId() {
+        return computerId;
     }
 
-    public void setComputer(Computer computer) {
-        this.computer = computer;
-    }
-
-    public List<OrderDetail> getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
-
-    public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setComputerId(int computerId) {
+        this.computerId = computerId;
     }
 
     public String getStatus() {
@@ -81,20 +61,8 @@ public class Order {
         this.status = status;
     }
 
-    public LocalDateTime getOrderTime() {
-        return orderTime;
+    public String getCreated_at() {
+        return created_at;
     }
 
-    public void setOrderTime(LocalDateTime orderTime) {
-        this.orderTime = orderTime;
-    }
-
-    // Method 'hitungTotalHarga' diubah ke bahasa Inggris dengan camelCase
-    public int calculateTotalPrice() {
-        int total = 0;
-        for (OrderDetail detail : orderDetails) {
-            total += detail.getSubtotal();
-        }
-        return total;
-    }
 }

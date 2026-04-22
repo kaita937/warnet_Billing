@@ -6,7 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class OrderDetailDao {
-    
+
+    // revisi
+    // buat method autentikasi orderDetailed di tabel
+    // buat method get id
+    // ubah method CRUD karena atribut dan kolomnya diganti
+    // buat kolom dari artribut model kedalam database connection
+
     // Create
     public void createOrderDetail(int orderId, int foodMenuId, int quantity) {
         // Ingat saran sebelumnya: idealnya createNewTable() ini dihapus kalau udah dipanggil di Main

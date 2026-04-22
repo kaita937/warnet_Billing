@@ -2,27 +2,52 @@ package com.DeaJayaNet.model.food;
 
 public class OrderDetail {
     
-    private FoodMenus foodMenu; 
-    private int quantity;       // Pengganti 'jumlah'
-    private int subtotal;       // Tetap 'subtotal'
+    private int orderId;          
+    private int foodMenuId;
+    private int quantity;       
+    private int subtotal;       
 
+    // Constructor
     public OrderDetail() {
+    }   
+
+    public OrderDetail(int orderId) {
+        this.orderId = orderId;
     }
 
-    public OrderDetail(FoodMenus foodMenu, int quantity) {
-        this.foodMenu = foodMenu;
+    public OrderDetail(int orderId, int foodMenuId) {
+        this.orderId = orderId;
+        this.foodMenuId = foodMenuId;
+    }
+
+    public OrderDetail(int orderId, int foodMenuId, int quantity) {
+        this.orderId = orderId;
+        this.foodMenuId = foodMenuId;
         this.quantity = quantity;
-        // Asumsi method getHarga() di class FoodMenu udah lu ubah jadi getPrice()
-        this.subtotal = foodMenu.getPrice() * quantity; 
+    }
+
+    public OrderDetail(int orderId, int foodMenuId, int quantity, int subtotal) {
+        this.orderId = orderId;
+        this.foodMenuId = foodMenuId;
+        this.quantity = quantity;
+        this.subtotal = subtotal;
     }
 
     // --- Getter & Setter ---
-    public FoodMenus getFoodMenu() {
-        return foodMenu;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setFoodMenu(FoodMenus foodMenu) {
-        this.foodMenu = foodMenu;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public int getFoodMenuId() {
+        return foodMenuId;
+    }
+
+    public void setFoodMenuId(int foodMenuId) {
+        this.foodMenuId = foodMenuId;
     }
 
     public int getQuantity() {

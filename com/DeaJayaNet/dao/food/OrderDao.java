@@ -8,7 +8,13 @@ import com.DeaJayaNet.dao.DatabaseConnection;
 import com.DeaJayaNet.model.food.Order; 
 
 public class OrderDao {
-    
+
+    // revisi
+    // buat method autentikasi orderDetailed di tabel
+    // buat method get id
+    // ubah method CRUD karena atribut dan kolomnya diganti
+    // buat kolom dari artribut model kedalam database connection
+
     // Create
     public void createOrder() {
         DatabaseConnection.createNewTable();
