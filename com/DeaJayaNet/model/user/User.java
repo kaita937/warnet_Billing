@@ -9,6 +9,8 @@ public abstract class User {
     private String email;
     private String phoneNumber;
     protected String role; 
+    private int remainingTime;
+
     UserDao userDao = new UserDao();
 
     // --- Constructor ---
@@ -19,6 +21,7 @@ public abstract class User {
         this.email = null;
         this.phoneNumber = null;
         this.role = getRole();
+        this.remainingTime = 0;
     }
 
     public User(String name, String username, String password) {
@@ -28,6 +31,7 @@ public abstract class User {
         this.email = null;
         this.phoneNumber = null;
         this.role = getRole();
+        this.remainingTime = 0;
     }
 
     public User(String name, String username, String password, String email) {
@@ -37,6 +41,7 @@ public abstract class User {
         this.email = email;
         this.phoneNumber = null;
         this.role = getRole();
+        this.remainingTime = 0;
     }
 
     public User(String name, String username, String password, String email, String phoneNumber) {
@@ -46,6 +51,17 @@ public abstract class User {
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.role = getRole();
+        this.remainingTime = 0;
+    }
+
+    public User(String name, String username, String password, String email, String phoneNumber, int remainingTime) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.role = getRole();
+        this.remainingTime = remainingTime;
     }
 
     // --- Setter ---
@@ -91,4 +107,12 @@ public abstract class User {
     }
 
     public abstract String getRole();
+
+    public int getRemainingTime() {
+        return this.remainingTime;
+    }
+
+    public void setRemainingTime(int remainingTime) {
+        this.remainingTime = remainingTime;
+    }
 }

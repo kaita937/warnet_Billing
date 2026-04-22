@@ -32,9 +32,9 @@ public class UserDao {
     }
     
     // Create
-    public void createUser(String name, String username, String password, String email, String phoneNumber, String role) {
+    public void createUser(String name, String username, String password, String email, String phoneNumber, String role, int remainingTime) {
 
-        String sql = "INSERT INTO users(name, username, password, email, phone_number, role) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO users(name, username, password, email, phone_number, role, remaining_time) VALUES(?,?,?,?,?,?,?)";
 
         if (checkUsername(username)) {
             System.out.println("Gagal menambahkan user: Username '" + username + "' sudah ada.\n");
@@ -46,7 +46,8 @@ public class UserDao {
                 pstmt.setString(3, password);
                 pstmt.setString(4, email);
                 pstmt.setString(5, phoneNumber);
-                pstmt.setString(6, role); 
+                pstmt.setString(6, role);
+                pstmt.setInt(7, remainingTime);
                 pstmt.executeUpdate();
                 System.out.println("User '" + username + "' berhasil ditambahkan ke database.\n");
             } catch (SQLException e) {
@@ -74,6 +75,7 @@ public class UserDao {
                                  + "Email : " + rs.getString("email") + "\n"
                                  + "Phone Number : " + rs.getString("phone_number") + "\n"
                                  + "Role : " + rs.getString("role") + "\n"
+                                    + "Remaining Time : " + rs.getInt("remaining_time") + " minutes\n"
                                  );
             } else {
                 System.out.println("User tidak ditemukan.");
@@ -86,9 +88,9 @@ public class UserDao {
     }
 
     // Update
-    public void updateUser(String name, String username, String password, String email, String phoneNumber, String role) {
+    public void updateUser(String name, String username, String password, String email, String phoneNumber, String role, int remainingTime) {
         int userId = getIdByUsername(username);
-        String sql = "UPDATE users SET name = ?, username = ?, password = ?, email = ?, phone_number = ?, role = ? WHERE user_id = ?";
+        String sql = "UPDATE users SET name = ?, username = ?, password = ?, email = ?, phone_number = ?, role = ?, remaining_time = ? WHERE user_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -98,7 +100,7 @@ public class UserDao {
             pstmt.setString(4, email);
             pstmt.setString(5, phoneNumber);
             pstmt.setString(6, role);
-            pstmt.setInt(7, userId);
+            pstmt.setInt(7, remainingTime);
             pstmt.executeUpdate();
             
             System.out.println("User '" + username + "' berhasil diperbarui di database.\n");

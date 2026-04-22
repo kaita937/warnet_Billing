@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.DeaJayaNet.dao.DatabaseConnection;
-import com.DeaJayaNet.model.billing.BillingSession;
+import com.DeaJayaNet.model.billing.ActiveSession;
 
 public class ComputerDao {
     // Autentikasi / Pengecekan

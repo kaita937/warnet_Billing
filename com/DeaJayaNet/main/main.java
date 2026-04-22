@@ -31,9 +31,9 @@ import com.DeaJayaNet.model.food.OrderDetail;
 
 //import billing
 import com.DeaJayaNet.dao.billing.BillingPackageDao;
-import com.DeaJayaNet.dao.billing.BillingSessionDao;
+import com.DeaJayaNet.dao.billing.ActiveSessionDao;
 import com.DeaJayaNet.model.billing.BillingPackage;
-import com.DeaJayaNet.model.billing.BillingSession;
+import com.DeaJayaNet.model.billing.ActiveSession;
 
 public class main { 
     public static void main(String[] args) {
@@ -51,9 +51,12 @@ public class main {
         // UserDao userDao = new UserDao();  
         
         // Admin a1 = new Admin("Jull", "jull_admin", "qwerty");
-        // Vip v1 = new Vip("Jamal", "jamal_vip", "qwerty");
-        // Member m1 = new Member("Zaki", "zaki_member", "qwerty");
+        // Vip v1 = new Vip("Jamal", "jamal_vip", "qwerty", "jamal123@gmail.com", "081234567890", 120);
+        // Member m1 = new Member("Zaki", "zaki_member", "qwerty", "zaki123@gmail.com", "081234567891", 60);
         
+        // Vip v2 = new Vip ("Conor", "conor_vip", "qwerty", "conor123@gmail.com", "081234567892", 120);
+        // Member m2 = new Member ("Khabib", "khabib_member", "qwerty", "khabib123@gmail.com", "081234567893", 60);
+
         // // Read
         // userDao.readUser(a1.getUsername());
         // userDao.readUser(v1.getUsername());
@@ -122,27 +125,31 @@ public class main {
         // paymentLog.deletePaymentLog(pl1.getPaymentLogName());
 
         // ---------------------------------------------------------------------------------------------------------
-        System.out.println("=== TES CRUD food ===");
-        FoodMenusDao foodMenusDao = new FoodMenusDao();
+        // System.out.println("=== TES CRUD food ===");
+        // FoodMenusDao foodMenusDao = new FoodMenusDao();
 
         // Create
-        FoodMenus fm1 = new FoodMenus("Nasi Goreng", 15000, 10);
-        FoodMenus fm2 = new FoodMenus("Mie Goreng", 12000, 15);
+        // FoodMenus fm1 = new FoodMenus("Nasi Goreng", 15000, 10);
+        // FoodMenus fm2 = new FoodMenus("Mie Goreng", 12000, 15);
 
         // Read
-        foodMenusDao.readFoodMenu(fm1.getName());
-        foodMenusDao.readFoodMenu(fm2.getName());
+        // foodMenusDao.readFoodMenu(fm1.getName());
+        // foodMenusDao.readFoodMenu(fm2.getName());
 
         // Update
-        foodMenusDao.updateFoodMenu(fm1.getName(), 16000, 8);
-        foodMenusDao.updateFoodMenu(fm2.getName(), 13000, 12);
+        // foodMenusDao.updateFoodMenu(fm1.getName(), 16000, 8);
+        // foodMenusDao.updateFoodMenu(fm2.getName(), 13000, 12);
 
         // Delete
-        foodMenusDao.deleteFoodMenu(fm1.getName());
-        foodMenusDao.deleteFoodMenu(fm2.getName());
+        // foodMenusDao.deleteFoodMenu(fm1.getName());
+        // foodMenusDao.deleteFoodMenu(fm2.getName());
 
         // ---------------------------------------------------------------------------------------------------------
         // System.out.println("=== TES CRUD Billing ===");
+
+        ActiveSession as1 = new ActiveSession( 1, 1, System.currentTimeMillis(), 0, ActiveSession.TYPE_MEMBER);
+        ActiveSessionDao activeSessionDao = new ActiveSessionDao();
+        activeSessionDao.createSession(as1);
 
     }
 }

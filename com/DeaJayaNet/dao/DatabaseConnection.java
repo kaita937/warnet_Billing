@@ -112,17 +112,25 @@ public class DatabaseConnection {
                                     ");";
 
         // 9. Table Billing Sessions
-        String sqlBillingSessions = "CREATE TABLE IF NOT EXISTS billing_sessions (" +
+        String sqlActiveSessions = "CREATE TABLE IF NOT EXISTS active_sessions (" +
                                     "session_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                     "user_id INTEGER, " +
-                                    "computer_id INTEGER NOT NULL, " +
-                                    "start_time TEXT NOT NULL, " +
-                                    "end_time TEXT, " +
-                                    "status TEXT NOT NULL CHECK(status IN ('ACTIVE', 'FINISHED')), " +
-                                    "session_type TEXT NOT NULL CHECK(session_type IN ('MEMBER', 'GUEST')), " +
+                                    "computer_id INTEGER, " +
+                                    "start_time INTEGER, " +
+                                    "end_time INTEGER, " +
+                                    "session_type TEXT CHECK(session_type IN ('MEMBER', 'NON_MEMBER')), " +
                                     "FOREIGN KEY (user_id) REFERENCES users(user_id), " +
                                     "FOREIGN KEY (computer_id) REFERENCES computers(computer_id)" +
                                     ");";
+
+        String sqlSessionHistory = "CREATE TABLE IF NOT EXISTS history_sessions ("
+                + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + " user_id INTEGER,"
+                + " computer_id INTEGER,"
+                + " start_time INTEGER,"
+                + " end_time INTEGER,"
+                + " session_type TEXT"
+                + ");";
 
         // Eksekusi semua query pembuatan tabel
         try (Connection conn = getConnection();
@@ -136,7 +144,8 @@ public class DatabaseConnection {
             // stmt.execute(sqlOrders);
             // stmt.execute(sqlOrderDetails);
             // stmt.execute(sqlBillingPackages);
-            // stmt.execute(sqlBillingSessions);
+            stmt.execute(sqlActiveSessions);
+            stmt.execute(sqlSessionHistory);
             
             // Boleh di-uncomment kalau lu mau ada log sukses pas aplikasi jalan
             // System.out.println("Semua tabel berhasil diverifikasi/dibuat.\n");
