@@ -135,23 +135,6 @@ public class FoodMenusDao {
         return -1; // Menu makanan tidak ditemukan
     }
 
-    // // Cek apakah menu sudah ada
-    // public boolean checkMenu(String name) {
-    //     String sql = "SELECT food_menu_id FROM food_menus WHERE name = ?";
-    //     try (Connection conn = DatabaseConnection.getConnection();
-    //          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-    //         pstmt.setString(1, name);
-    //         ResultSet rs = pstmt.executeQuery();
-
-    //         if (rs.next()) {
-    //             return true;
-    //         }
-
-    //     } catch (SQLException e) {
-    //         System.out.println(e.getMessage() + "\n");
-    //     }
-    //     return false;
-    // }
+    
 
 }
