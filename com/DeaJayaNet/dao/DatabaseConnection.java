@@ -33,7 +33,7 @@ public class DatabaseConnection {
                           "password TEXT, " +
                           "email TEXT UNIQUE, " +
                           "phone_number TEXT, " +
-                          "role TEXT CHECK(role IN ('Admin', 'Member', 'VIP')), " +
+                          "role TEXT CHECK(role IN ('ADMIN', 'MEMBER', 'VIP')), " +
                           "remaining_time INTEGER DEFAULT 0 " +
                           ");";
                 
@@ -144,7 +144,7 @@ public class DatabaseConnection {
             stmt.execute(sqlFoodMenus);
             // stmt.execute(sqlOrders);
             // stmt.execute(sqlOrderDetails);
-            // stmt.execute(sqlBillingPackages);
+            stmt.execute(sqlBillingPackages);
             stmt.execute(sqlActiveSessions);
             stmt.execute(sqlSessionHistory);
             

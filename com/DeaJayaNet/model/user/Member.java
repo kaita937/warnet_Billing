@@ -2,7 +2,7 @@ package com.DeaJayaNet.model.user;
 import com.DeaJayaNet.dao.user.UserDao;
 
 public class Member extends User {
-    private String role = "Member";
+    private String role = "MEMBER";
 
     // --- Constructor ---
     public Member() {

@@ -47,12 +47,12 @@ public class main {
         // Terus buka file warnet.db yang ada di folder project ini pakai DB Browser.
 
         // ---------------------------------------------------------------------------------------------------------
-        // System.out.println("=== TES CRUD USER ===");
-        // UserDao userDao = new UserDao();  
+        System.out.println("=== TES CRUD USER ===");
+        UserDao userDao = new UserDao();  
         
         // Admin a1 = new Admin("Jull", "jull_admin", "qwerty");
         // Vip v1 = new Vip("Jamal", "jamal_vip", "qwerty", "jamal123@gmail.com", "081234567890", 120);
-        // Member m1 = new Member("Zaki", "zaki_member", "qwerty", "zaki123@gmail.com", "081234567891", 60);
+        Member m1 = new Member("Zaki", "zaki_member", "qwerty", "zaki123@gmail.com", "081234567891", 60);
         
         // Vip v2 = new Vip ("Conor", "conor_vip", "qwerty", "conor123@gmail.com", "081234567892", 120);
         // Member m2 = new Member ("Khabib", "khabib_member", "qwerty", "khabib123@gmail.com", "081234567893", 60);
@@ -76,11 +76,11 @@ public class main {
         // userDao.deleteUser(m1.getUsername());
 
         // ---------------------------------------------------------------------------------------------------------
-        // System.out.println("=== TES CRUD COMPUTER ===");
-        // ComputerDao computerDao = new ComputerDao();
+        System.out.println("=== TES CRUD COMPUTER ===");
+        ComputerDao computerDao = new ComputerDao();
         
         // // Create
-        // RegularComputer pcr1 = new RegularComputer("PC-R001");
+        RegularComputer pcr1 = new RegularComputer("PC-R001");
         // VipComputer pcv1 = new VipComputer("PC-V001");
         // RegularComputer pcr2 = new RegularComputer("PC-R002");
         
@@ -145,11 +145,27 @@ public class main {
         // foodMenusDao.deleteFoodMenu(fm2.getName());
 
         // ---------------------------------------------------------------------------------------------------------
-        // System.out.println("=== TES CRUD Billing ===");
-
-        ActiveSession as1 = new ActiveSession( 1, 1, System.currentTimeMillis(), 0, ActiveSession.TYPE_MEMBER);
+        System.out.println("=== TES CRUD Billing ===");
+        BillingPackageDao billingPackageDao = new BillingPackageDao();
         ActiveSessionDao activeSessionDao = new ActiveSessionDao();
-        activeSessionDao.createSession(as1);
+
+        // Create
+        BillingPackage bp1 = new BillingPackage("Paket 1 Jam", 60, 10000);
+        ActiveSession as1 = new ActiveSession(userDao.getIdByUsername(m1.getUsername()), computerDao.getIdByComputerNumber(pcr1.getComputerNumber()), System.currentTimeMillis(), 0, m1.getRole());
+
+        // Read
+        billingPackageDao.readBillingPackage(bp1.getPackageName());
+        activeSessionDao.readActiveSession(userDao.getIdByUsername(m1.getUsername()), computerDao.getIdByComputerNumber(pcr1.getComputerNumber()));
+
+        // // Update
+        // billingPackageDao.updateBillingPackage(bp1.getPackageName(), 120, 18000);
+        // billingPackageDao.readBillingPackage(bp1.getPackageName());
+        // activeSessionDao.updateActiveSession(userDao.getIdByUsername(m1.getUsername()), computerDao.getIdByComputerNumber(pcr1.getComputerNumber()), as1.getStartTime(), 0, "NON_MEMBER");
+        // activeSessionDao.readActiveSession(userDao.getIdByUsername(m1.getUsername()), computerDao.getIdByComputerNumber(pcr1.getComputerNumber()));
+
+        // // Delete
+        // billingPackageDao.deleteBillingPackage(bp1.getPackageName());
+        // activeSessionDao.deleteActiveSession(userDao.getIdByUsername(m1.getUsername()), computerDao.getIdByComputerNumber(pcr1.getComputerNumber()));
 
     }
 }
