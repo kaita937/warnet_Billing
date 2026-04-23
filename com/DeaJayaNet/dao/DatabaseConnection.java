@@ -83,12 +83,11 @@ public class DatabaseConnection {
         // 6. Table Orders (Disinkronkan dengan OrderDao)
         String sqlOrders = "CREATE TABLE IF NOT EXISTS orders (" +
                            "order_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                           "order_code TEXT UNIQUE, " +
                            "user_id INTEGER, " +
                            "computer_id INTEGER, " +
-                           "total_price INTEGER, " +
-                           "payment_method TEXT, " +
                            "status TEXT, " +
-                           "order_time TEXT, " +
+                           "created_at TEXT, " +
                            "FOREIGN KEY (user_id) REFERENCES users(user_id), " +
                            "FOREIGN KEY (computer_id) REFERENCES computers(computer_id)" +
                            ");";
@@ -99,7 +98,7 @@ public class DatabaseConnection {
                                  "order_id INTEGER, " +
                                  "food_menu_id INTEGER, " +
                                  "quantity INTEGER, " +
-                                "subtotal INTEGER, " +
+                                 "subtotal INTEGER, " +
                                  "FOREIGN KEY (order_id) REFERENCES orders(order_id), " +
                                  "FOREIGN KEY (food_menu_id) REFERENCES food_menus(food_menu_id)" +
                                  ");";
@@ -124,14 +123,14 @@ public class DatabaseConnection {
                                     "FOREIGN KEY (computer_id) REFERENCES computers(computer_id)" +
                                     ");";
 
-        String sqlSessionHistory = "CREATE TABLE IF NOT EXISTS history_sessions ("
-                + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + " user_id INTEGER,"
-                + " computer_id INTEGER,"
-                + " start_time INTEGER,"
-                + " end_time INTEGER,"
-                + " session_type TEXT"
-                + ");";
+        String sqlSessionHistory = "CREATE TABLE IF NOT EXISTS history_sessions (" + 
+                                   " id INTEGER PRIMARY KEY AUTOINCREMENT," + 
+                                   " user_id INTEGER," +
+                                   " computer_id INTEGER," +
+                                   " start_time INTEGER," +
+                                   " end_time INTEGER," +
+                                   " session_type TEXT" + 
+                                   ");";
 
         // Eksekusi semua query pembuatan tabel
         try (Connection conn = getConnection();
@@ -142,8 +141,8 @@ public class DatabaseConnection {
             stmt.execute(sqlTransactions);
             stmt.execute(sqlPaymentLog);
             stmt.execute(sqlFoodMenus);
-            // stmt.execute(sqlOrders);
-            // stmt.execute(sqlOrderDetails);
+            stmt.execute(sqlOrders);
+            stmt.execute(sqlOrderDetails);
             stmt.execute(sqlBillingPackages);
             stmt.execute(sqlActiveSessions);
             stmt.execute(sqlSessionHistory);
