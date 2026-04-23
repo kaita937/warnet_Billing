@@ -99,6 +99,7 @@ public class DatabaseConnection {
                                  "order_id INTEGER, " +
                                  "food_menu_id INTEGER, " +
                                  "quantity INTEGER, " +
+                                "subtotal INTEGER, " +
                                  "FOREIGN KEY (order_id) REFERENCES orders(order_id), " +
                                  "FOREIGN KEY (food_menu_id) REFERENCES food_menus(food_menu_id)" +
                                  ");";
