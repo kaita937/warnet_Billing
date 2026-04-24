@@ -7,17 +7,14 @@ public class RegularComputer extends Computer {
     // --- Constructor ---
     public RegularComputer() {
         super();
-        computerDao.createComputer(super.getComputerNumber(), super.isUnlocked(), this.getComputerType());
     }
 
     public RegularComputer(String computerNumber) {
         super(computerNumber);
-        computerDao.createComputer(super.getComputerNumber(), super.isUnlocked(), this.getComputerType());
     }
 
     public RegularComputer(String computerNumber, boolean isUnlocked) {
         super(computerNumber, isUnlocked);
-        computerDao.createComputer(super.getComputerNumber(), super.isUnlocked(), this.getComputerType());
     }
 
     // Override method abstract dari parent class Computer
