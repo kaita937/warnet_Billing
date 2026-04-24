@@ -1,14 +1,10 @@
 package com.DeaJayaNet.model.computer;
 
-import com.DeaJayaNet.dao.computer.ComputerDao; 
-
 public abstract class Computer {
 
     private String computerNumber;
     private boolean isUnlocked = false;
     protected String computerType;
-
-    ComputerDao computerDao = new ComputerDao();
     
     // --- Constructor ---
     public Computer() {

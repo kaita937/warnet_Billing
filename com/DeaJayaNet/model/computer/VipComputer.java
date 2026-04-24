@@ -7,17 +7,14 @@ public class VipComputer extends Computer {
     // --- Constructor ---
     public VipComputer() {
         super();
-        computerDao.createComputer(super.getComputerNumber(), super.isUnlocked(), this.getComputerType());
     }
 
     public VipComputer(String computerNumber) {
         super(computerNumber);
-        computerDao.createComputer(super.getComputerNumber(), super.isUnlocked(), this.getComputerType());
     }
 
     public VipComputer(String computerNumber, boolean isUnlocked) {
         super(computerNumber, isUnlocked);
-        computerDao.createComputer(super.getComputerNumber(), super.isUnlocked(), this.getComputerType());
     }
 
     // Override method abstract dari parent class Computer
