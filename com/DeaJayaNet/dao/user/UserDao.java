@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import com.DeaJayaNet.dao.DatabaseConnection;
 import com.DeaJayaNet.model.user.Member;
+import com.DeaJayaNet.model.user.User;
 import com.DeaJayaNet.model.user.Admin;
 import com.DeaJayaNet.model.user.Vip;
 
@@ -115,116 +116,30 @@ public class UserDao {
         }
     }
 
-    // // Read
-    // public void readUser(String username) {
-    //     int userId = getIdByUsername(username);
-    //     String sql = "SELECT * FROM users WHERE user_id = ?";
-
-    //     try (Connection conn = DatabaseConnection.getConnection();
-    //          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-    //         pstmt.setInt(1, userId);
-    //         ResultSet rs = pstmt.executeQuery();
-
-    //         if (rs.next()) {
-    //             System.out.println("ID : " + rs.getString("user_id") + "\n"
-    //                              + "Name : " + rs.getString("name") + "\n"
-    //                              + "Username : " + rs.getString("username") + "\n"
-    //                              + "Password : " + rs.getString("password") + "\n"
-    //                              + "Email : " + rs.getString("email") + "\n"
-    //                              + "Phone Number : " + rs.getString("phone_number") + "\n"
-    //                              + "Role : " + rs.getString("role") + "\n"
-    //                                 + "Remaining Time : " + rs.getInt("remaining_time") + " minutes\n"
-    //                              );
-    //         } else {
-    //             System.out.println("User tidak ditemukan.");
-    //         }
-    //         System.out.println();
-            
-    //     } catch (Exception e) {
-    //         System.out.println(e.getMessage() + "\n");
-    //     }
-    // }
-
-    // // Update
-    // public void updateUser(String name, String username, String password, String email, String phoneNumber, String role, int remainingTime) {
-    //     int userId = getIdByUsername(username);
-    //     String sql = "UPDATE users SET name = ?, username = ?, password = ?, email = ?, phone_number = ?, role = ?, remaining_time = ? WHERE user_id = ?";
-
-    //     try (Connection conn = DatabaseConnection.getConnection();
-    //          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-    //         pstmt.setString(1, name);   
-    //         pstmt.setString(2, username);
-    //         pstmt.setString(3, password);
-    //         pstmt.setString(4, email);
-    //         pstmt.setString(5, phoneNumber);
-    //         pstmt.setString(6, role);
-    //         pstmt.setInt(7, remainingTime);
-    //         pstmt.executeUpdate();
-            
-    //         System.out.println("User '" + username + "' berhasil diperbarui di database.\n");
-    //     } catch (SQLException e) {
-    //         System.out.println(e.getMessage() + "\n");
-    //     }
-    // }
-
-    // // Delete
-    // public void deleteUser(String username) {
-    //     int userId = getIdByUsername(username);
-    //     String sql = "DELETE FROM users WHERE user_id = ?";
-
-    //     try (Connection conn = DatabaseConnection.getConnection();
-    //          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-    //         pstmt.setInt(1, userId);
-    //         pstmt.executeUpdate();
-            
-    //         System.out.println("User dengan ID = " + userId + ", Username = " + username + " berhasil dihapus.\n");
-    //     } catch (Exception e) {
-    //         System.out.println(e.getMessage() + "\n");
-    //     }
-    // }
-
-    // public int getIdByUsername(String username) {
-
-    //     String sql = "SELECT user_id FROM users WHERE username = ?";
-    //     int userId = -1;
-
-    //     try(Connection conn = DatabaseConnection.getConnection();
-    //          PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            
-    //         pstmt.setString(1, username);
-    //         ResultSet rs = pstmt.executeQuery();
-
-    //         if (rs.next()) {
-    //             userId = rs.getInt("user_id");
-    //         }
-
-    //     } catch (SQLException e) {
-    //         System.out.println(e.getErrorCode() + "\n");
-    //     }
-
-    //     return userId;
-    // }
-
-    // // Method checkLogin (sebelumnya cekLogin)
-    // public boolean checkLogin(String username, String password) {
-
-    //     String sql = "SELECT password FROM users WHERE username = ?";
-        
-    //     try (Connection conn = DatabaseConnection.getConnection();
-    //          PreparedStatement pstmt  = conn.prepareStatement(sql)){
-            
-    //         pstmt.setString(1, username);
-    //         ResultSet rs  = pstmt.executeQuery();
-            
-    //         // Cek apakah ada hasil dan passwordnya cocok
-    //         if (rs.next() && rs.getString("password").equals(password)) {
-    //             return true;
-    //         }
-    //     } catch (SQLException e) {
-    //         System.out.println(e.getMessage() + "\n");
-    //     }
-    //     return false;
-    // }
+    public User getUserByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    String role = rs.getString("role");
+                    switch (role) {
+                        case "ADMIN":
+                            return new Admin(rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("phone_number"), rs.getInt("remaining_time"));
+                        case "MEMBER":
+                            return new Member(rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("phone_number"), rs.getInt("remaining_time"));
+                        case "VIP":
+                            return new Vip(rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getString("email"), rs.getString("phone_number"), rs.getInt("remaining_time"));
+                        default:
+                            return null;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+    
 }
