@@ -1,4 +1,4 @@
-package com.DeaJayaNet.service;
+package com.DeaJayaNet.controller;
 
 import javax.swing.JOptionPane;
 

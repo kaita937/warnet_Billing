@@ -2,7 +2,7 @@ package com.DeaJayaNet.model.user;
 
 public class Admin extends User {
 
-    private String role = "Admin";
+    private String role = "ADMIN";
 
     // --- Constructor ---
     public Admin() {
