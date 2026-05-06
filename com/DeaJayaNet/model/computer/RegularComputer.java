@@ -13,8 +13,12 @@ public class RegularComputer extends Computer {
         super(computerNumber);
     }
 
-    public RegularComputer(String computerNumber, boolean isUnlocked) {
-        super(computerNumber, isUnlocked);
+    public RegularComputer(String computerNumber, String Description) {
+        super(computerNumber, Description);
+    }
+
+    public RegularComputer(String computerNumber, String Description, boolean isUnlocked) {
+        super(computerNumber, Description, isUnlocked);
     }
 
     // Override method abstract dari parent class Computer

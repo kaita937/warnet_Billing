@@ -13,10 +13,13 @@ public class VipComputer extends Computer {
         super(computerNumber);
     }
 
-    public VipComputer(String computerNumber, boolean isUnlocked) {
-        super(computerNumber, isUnlocked);
+    public VipComputer(String computerNumber, String Description) {
+        super(computerNumber, Description);
     }
 
+    public VipComputer(String computerNumber, String Description, boolean isUnlocked) {
+        super(computerNumber, Description, isUnlocked);
+    }
     // Override method abstract dari parent class Computer
     @Override
     public String getComputerType() {
