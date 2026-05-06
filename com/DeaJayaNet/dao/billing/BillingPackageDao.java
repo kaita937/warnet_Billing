@@ -33,9 +33,9 @@ public class BillingPackageDao {
     }
 
     // Create
-    public void createBillingPackage(String packageName, int durationMinutes, int price) {
+    public void createBillingPackage(String packageName, String category, int durationMinutes, int price) {
 
-        String sql = "INSERT INTO billing_packages(package_name, duration_minutes, price) VALUES(?,?,?)";
+        String sql = "INSERT INTO billing_packages(package_name, category, duration_minutes, price) VALUES(?,?,?,?,?)";
 
         if (checkPackageName(packageName)) {
             System.out.println("Gagal menambahkan paket billing: nama paket '" + packageName + "' sudah ada.\n");
@@ -44,8 +44,9 @@ public class BillingPackageDao {
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 
                 pstmt.setString(1, packageName);
-                pstmt.setInt(2, durationMinutes);
-                pstmt.setInt(3, price);
+                pstmt.setString(2, category);
+                pstmt.setInt(3, durationMinutes);
+                pstmt.setInt(4, price);
                 pstmt.executeUpdate();
                 
                 System.out.println("Paket billing '" + packageName + "' berhasil ditambahkan ke database.\n");
@@ -69,6 +70,7 @@ public class BillingPackageDao {
             if (rs.next()) {
                 System.out.println("ID : " + rs.getString("package_id") + "\n"
                                  + "Package Name : " + rs.getString("package_name") + "\n"
+                                 + "Category : " + rs.getString("category") + "\n"
                                  + "Duration (Minutes) : " + rs.getInt("duration_minutes") + "\n"
                                  + "Price : " + rs.getInt("price") + "\n"
                                  );
@@ -83,17 +85,18 @@ public class BillingPackageDao {
     }
 
     // Update
-    public void updateBillingPackage(String packageName, int durationMinutes, int price) {
+    public void updateBillingPackage(String packageName, String category, int durationMinutes, int price) {
         int id = getIdByPackageName(packageName);
-        String sql = "UPDATE billing_packages SET package_name = ?, duration_minutes = ?, price = ? WHERE package_id = ?";
+        String sql = "UPDATE billing_packages SET package_name = ?, category = ?, duration_minutes = ?, price = ? WHERE package_id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, packageName);
-            pstmt.setInt(2, durationMinutes);
-            pstmt.setInt(3, price);
-            pstmt.setInt(4, id);
+            pstmt.setString(2, category);
+            pstmt.setInt(3, durationMinutes);
+            pstmt.setInt(4, price);
+            pstmt.setInt(5, id);
             pstmt.executeUpdate();
 
             System.out.println("Paket billing '" + packageName + "' berhasil diperbarui di database.\n");

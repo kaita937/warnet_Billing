@@ -77,6 +77,7 @@ public class ComputerDao {
             if (rs.next()) {
                 System.out.println("ID : " + rs.getString("computer_id") + "\n"
                                  + "Computer Number : " + rs.getString("computer_number") + "\n"
+                                 + "Description : " + rs.getString("Description") + "\n"
                                  + "Computer Type : " + rs.getString("computer_type") + "\n"
                                  + "Is Unlocked : " + rs.getBoolean("is_unlocked") + "\n"                    
                                 );
