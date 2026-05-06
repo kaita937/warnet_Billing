@@ -42,6 +42,7 @@ public class DatabaseConnection {
                               "computer_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                               "computer_number TEXT UNIQUE, " +
                               "computer_type TEXT CHECK(computer_type IN ('Regular', 'VIP')), " +
+                              "Description TEXT, " +
                               "is_unlocked BOOLEAN DEFAULT 0 " + 
                               ");";
 

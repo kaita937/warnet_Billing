@@ -3,6 +3,7 @@ package com.DeaJayaNet.model.computer;
 public abstract class Computer {
 
     private String computerNumber;
+    private String Description;
     private boolean isUnlocked = false;
     protected String computerType;
     
@@ -16,13 +17,21 @@ public abstract class Computer {
         this.isUnlocked = false;
     }
 
-    public Computer(String computerNumber, boolean isUnlocked) {
+    public Computer(String computerNumber, String Description) {
         this.computerNumber = computerNumber;
+        this.Description = Description;
+        this.isUnlocked = false;
+    }
+
+    public Computer(String computerNumber, String Description, boolean isUnlocked) {
+        this.computerNumber = computerNumber;
+        this.Description = Description;
         this.isUnlocked = isUnlocked;
     }
 
-    public Computer(String computerNumber, boolean isUnlocked, String computerType) {
+    public Computer(String computerNumber, String Description, boolean isUnlocked, String computerType) {
         this.computerNumber = computerNumber;
+        this.Description = Description;
         this.isUnlocked = isUnlocked;
         this.computerType = computerType;
     }

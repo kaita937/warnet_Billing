@@ -34,11 +34,11 @@ public class ComputerDao {
     }
     
     // Create
-    public void createComputer(String computerNumber, boolean isUnlocked, String computerType){
+    public void createComputer(String computerNumber, boolean isUnlocked, String computerType, String Description){
 
         DatabaseConnection.createNewTable();
 
-        String sql = "INSERT INTO computers(computer_number, computer_type, is_unlocked) VALUES(?,?,?)";
+        String sql = "INSERT INTO computers(computer_number, computer_type, Description, is_unlocked) VALUES(?,?,?,?)";
 
         if (checkComputerNumber(computerNumber)) {
             System.out.println("Gagal menambahkan PC: Nomor PC '" + computerNumber + "' sudah ada.");
@@ -48,7 +48,8 @@ public class ComputerDao {
                  PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, computerNumber);
                 pstmt.setString(2, computerType);
-                pstmt.setBoolean(3, isUnlocked);
+                pstmt.setString(3, Description);
+                pstmt.setBoolean(4, isUnlocked);
                 pstmt.executeUpdate();
                 System.out.println("PC '" + computerNumber + "' berhasil ditambahkan ke database.");
                 System.out.println();
@@ -91,19 +92,20 @@ public class ComputerDao {
     }
 
     // Update
-    public void updateComputer(String computerNumber, boolean isUnlocked){
+    public void updateComputer(String computerNumber, boolean isUnlocked, String Description){
         
         DatabaseConnection.createNewTable();
         int id = getIdByComputerNumber(computerNumber);
 
-        String sql = "UPDATE computers SET computer_number = ?, is_unlocked = ? WHERE computer_id = ?";
+        String sql = "UPDATE computers SET computer_number = ?, is_unlocked = ?, Description = ? WHERE computer_id = ?";
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, computerNumber);
             pstmt.setBoolean(2, isUnlocked);
-            pstmt.setInt(3, id);
+            pstmt.setString(3, Description);
+            pstmt.setInt(4, id);
             pstmt.executeUpdate();
 
             System.out.println("PC " + computerNumber + " berhasil diperbarui di database");
