@@ -108,6 +108,7 @@ public class DatabaseConnection {
         String sqlBillingPackages = "CREATE TABLE IF NOT EXISTS billing_packages (" +
                                     "package_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                                     "package_name TEXT, " +
+                                    "category TEXT CHECK(category IN ('REGULER', 'VIP')), " +
                                     "duration_minutes INTEGER, " +
                                     "price INTEGER" +
                                     ");";
